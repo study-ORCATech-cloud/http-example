@@ -26,5 +26,13 @@ def greet():
     return jsonify({"message": f"Hello {name}"}), 200
 
 
+@app.route("/age", methods=["POST"])
+def age():
+    data = request.get_json()
+    if not data or "age" not in data:
+        return jsonify({"error": "Missing 'age' field in request body"}), 400
+    return jsonify({"message": f"Your age is {data['age']}"}), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=PORT)
