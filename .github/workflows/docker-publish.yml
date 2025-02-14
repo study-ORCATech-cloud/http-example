@@ -24,7 +24,7 @@ jobs:
 
       - name: Get next version and build Docker images
         run: |
-          repoName="orcatech"
+          repoName="orcatechwork"
           services="http-example"
           
           # Authenticate with Docker Hub and get the token
