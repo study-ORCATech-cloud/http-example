@@ -35,5 +35,5 @@ if [ ! -f .env.${ENV} ]; then
     systemctl start docker
 fi
 
-docker run --rm -d -p 5000:5000 orcatechwork/http-example:1.0.0
+docker run --rm -d -p 5000:5000 orcatechwork/http-example:1.1.0
 --//--
