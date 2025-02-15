@@ -1,4 +1,3 @@
-import logging
 import os
 
 from flask import Flask, request, jsonify
@@ -6,6 +5,8 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 PORT = os.environ.get("PORT", "5000")
+CHOKOMOKO_SECRET_SM = os.environ.get("CHOKOMOKO_SECRET_SM", None)
+CHOKOMOKO_SECRET_SSM = os.environ.get("CHOKOMOKO_SECRET_SSM", None)
 
 
 @app.route("/liveness", methods=["GET"])
@@ -32,6 +33,21 @@ def age():
     if not data or "age" not in data:
         return jsonify({"error": "Missing 'age' field in request body"}), 400
     return jsonify({"message": f"Your age is {data['age']}"}), 200
+
+
+@app.route("/secret", methods=["GET"])
+def greet():
+    var_name = request.args.get("varName")
+    if not var_name:
+        return jsonify({"error": "Missing 'varName' parameter"}), 400
+    elif var_name == "CHOKOMOKO_SECRET_SM":
+        return jsonify({"message": f"Secret '{var_name}' value is: {CHOKOMOKO_SECRET_SM}"}), 200
+    elif var_name == "CHOKOMOKO_SECRET_SSM":
+        return jsonify({"message": f"Secret '{var_name}' value is: {CHOKOMOKO_SECRET_SSM}"}), 200
+    else:
+        return jsonify({
+            "error": "Invalud parameter, 'varName' value must be one of ['CHOKOMOKO_SECRET_SM', CHOKOMOKO_SECRET_SSM]"
+        }), 400
 
 
 if __name__ == "__main__":

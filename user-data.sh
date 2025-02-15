@@ -35,5 +35,9 @@ if [ ! -f .env.${ENV} ]; then
     systemctl start docker
 fi
 
-docker run --rm -d -p 5000:5000 orcatechwork/http-example:1.1.0
+secret_sm=$(aws secretsmanager get-secret-value --secret-id ${ENV}/${APP_NAME}/env --query SecretString --output text)
+secret_ssm=$(aws ssm get-parameter --name /dev/chokomoko/secret --query "Parameter.Value" --output text)
+
+
+docker run --rm -d -p 5000:5000 -e CHOKOMOKO_SECRET_SM=${secret_sm} -e CHOKOMOKO_SECRET_SSM=${secret_ssm} orcatechwork/http-example:1.2.0
 --//--
