@@ -36,7 +36,7 @@ def age():
 
 
 @app.route("/secret", methods=["GET"])
-def greet():
+def secret():
     var_name = request.args.get("varName")
     if not var_name:
         return jsonify({"error": "Missing 'varName' parameter"}), 400
